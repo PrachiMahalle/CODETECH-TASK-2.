@@ -1,0 +1,72 @@
+/*THIS PROGRAM IS ALL ABOUT HOW WE CAN TRACK THE GRADES AND CGPA OF THE STUDENTS SUBJECTWISE*/
+def input_float(prompt, min_value=None, max_value=None):
+    while True:
+        try:
+            value = float(input(prompt))
+            if min_value is not None and value < min_value:
+                print(f"Value must be at least {min_value}.")
+            elif max_value is not None and value > max_value:
+                print(f"Value must not exceed {max_value}.")
+            else:
+                return value
+        except ValueError:
+            print("Invalid input! Please enter a valid number.")
+
+def calculate_average(grades):
+    return sum(grades) / len(grades) if grades else 0
+
+def get_letter_grade(numeric_grade):
+    if numeric_grade >= 90:
+        return 'A'
+    elif numeric_grade >= 80:
+        return 'B'
+    elif numeric_grade >= 70:
+        return 'C'
+    elif numeric_grade >= 60:
+        return 'D'
+    else:
+        return 'F'
+
+def main():
+    # Input student details
+    print("=== Student Grade Tracker ===")
+    student_name = input("Enter student's name: ")
+    college_name = input("Enter college name: ")
+    department_name = input("Enter department name: ")
+    
+    # Input grades for different subjects
+    subjects = []
+    grades = []
+    letter_grades = []
+
+    num_subjects = int(input_float("How many subjects/assignments? ", min_value=1))
+
+    for i in range(num_subjects):
+        subject = input(f"Enter subject/assignment name {i+1}: ")
+        grade = input_float(f"Enter grade for {subject} (out of 100): ", min_value=0, max_value=100)
+        subjects.append(subject)
+        grades.append(grade)
+        letter_grades.append(get_letter_grade(grade))
+
+    # Calculate average grade
+    average_grade = calculate_average(grades)
+    cgpa = average_grade / 10  # Assuming CGPA is out of 10
+
+    # Display student information
+    print("\n=== Student Information ===")
+    print(f"Name       : {student_name}")
+    print(f"College    : {college_name}")
+    print(f"Department : {department_name}")
+    
+    # Display grades
+    print("\n=== Grades ===")
+    for subject, grade, letter in zip(subjects, grades, letter_grades):
+        print(f"{subject}: {grade}/100 ({letter})")
+
+    print("\n=== Final Grade Tracker ===")
+    print(f"Average Grade: {average_grade:.2f}/100")
+    print(f"CGPA         : {cgpa:.2f}/10") 
+
+
+if __name__ == "__main__":
+    main()
